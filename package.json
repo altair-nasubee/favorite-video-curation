@@ -1,0 +1,41 @@
+{
+  "name": "favorite-video-curation",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push",
+    "seed": "tsx scripts/seed.ts"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "better-auth": "^1.6.15",
+    "drizzle-orm": "^0.45.2",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@types/node": "^22.10.7",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "dotenv": "^16.4.7",
+    "drizzle-kit": "^0.31.4",
+    "eslint": "^9.18.0",
+    "eslint-config-next": "^15.1.6",
+    "server-only": "^0.0.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  },
+  "packageManager": "pnpm@9.15.0"
+}

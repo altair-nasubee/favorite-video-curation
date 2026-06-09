@@ -28,9 +28,30 @@ yarn-error.log*
 .env*.local
 .env
 
+# local sqlite (libSQL) dev db
+/local.db
+/local.db-*
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Claude Code
+.claude/settings.local.json
+
+# Agent Skills
+# インストールしたSkillはignore（skills-lock.jsonで復元できるため）
+# 注意：自作Skillはコミットすること。
+.claude/skills/find-skills
+.claude/skills/skill-creator
+.claude/skills/frontend-design
+.claude/skills/vercel-react-best-practices
+.claude/skills/web-design-guidelines
+.agents/skills/find-skills/
+.agents/skills/skill-creator/
+.agents/skills/frontend-design/
+.agents/skills/vercel-react-best-practices/
+.agents/skills/web-design-guidelines/
