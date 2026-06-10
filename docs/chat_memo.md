@@ -236,7 +236,44 @@ http://localhost:3000/ をWebブラウザで開いて動作確認できた。
 
 ターミナルでコマンドを実行して、出力された値は.envの環境変数へ転記しておいた。
 
+## Chat9
+
+---
+
+BETTER_AUTH_SECRETを作成するためのコマンドを教えて 
+
+---
+
+`BETTER_AUTH_SECRET` はランダムな文字列なら何でもよく、定番は次のコマンドです。
+```bash
+openssl rand -base64 32
+```
+出力された文字列をそのまま `.env`（ローカル）や Vercel の環境変数に貼り付けます。
+
+## DBのdefaultの動画を差し替えるには
+
+`scripts/seed.ts`の`const SAMPLES: Seed[] = [`の中身を差し替えて、
+コンソールでseed.tsを実行する
+```bash
+pnpm seed
+```
+
+注意：動作確認するには.envの設定を以下のようにローカルサーバーように修正しておくこと
+```
+TURSO_DATABASE_URL="file:./local.db"
+TURSO_AUTH_TOKEN=""
+```
+
+## Chat10
+
+---
+
+仕様を変更したい。ADMIN_EMAILを廃止して、誰でも管理画面を使えるように変更して、/plans内の記述も修正してください。
+
+---
+
+
+
 
 ## 残件
-### シードの実動画 — 登録したい YouTube URL／カテゴリをご指定いただければ差し替えます（現在はサンプル）
 ### デプロイ — Vercel + Turso 本番設定、OAuth リダイレクトURI / BETTER_AUTH_URL

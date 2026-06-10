@@ -1,9 +1,9 @@
 /**
  * 開発用シードスクリプト: `pnpm seed`
  *
- * 注意: 下記の動画はあくまで動作確認用のプレースホルダー。
- * 実際に登録したい動画 URL / カテゴリが決まったら差し替えること
- * （implementation-plan.md §11 / §16 の未決事項）。
+ * SAMPLES に定義した動画を投入する。実行すると videos テーブルを
+ * 全削除してから入れ直す（接続先は .env の TURSO_DATABASE_URL に従う。
+ * 本番に向けて実行すると本番データが消えるため、ローカル file:./local.db で使うこと）。
  *
  * 高評価カテゴリ（全ユーザー平均 4.0 以上）の確認には評価データが必要だが、
  * 評価は実在ユーザー（Google ログイン）に紐づくため、ここでは投入しない。
@@ -22,34 +22,28 @@ type Seed = {
 
 const SAMPLES: Seed[] = [
   {
-    youtubeVideoId: "aqz-KE-bpKQ",
-    category: "Showcase",
-    title: "Big Buck Bunny（サンプル）",
+    youtubeVideoId: "a1MDCj0T0c4",
+    category: "Juice=Juice",
+    title: "CHOICE & CHANCE ハロ！ステ Live Edit.",
     isPublic: true,
   },
   {
-    youtubeVideoId: "dQw4w9WgXcQ",
-    category: "Music",
-    title: "クラシックな名曲（サンプル）",
+    youtubeVideoId: "xW3p6ZmX5CA",
+    category: "Juice=Juice",
+    title: "BLOODY BULLET",
     isPublic: true,
   },
   {
-    youtubeVideoId: "ScMzIvxBSi4",
-    category: "Nature",
-    title: "風景タイムラプス（サンプル）",
+    youtubeVideoId: "WvdT3_XHYIk",
+    category: "Juice=Juice",
+    title: "甘えんな",
     isPublic: true,
   },
   {
-    youtubeVideoId: "M7lc1UVf-VE",
-    category: "Learning",
-    title: "開発チュートリアル（サンプル）",
+    youtubeVideoId: "se9LaV0wbkQ",
+    category: "ストレッチ",
+    title: "何やっても落ちない体重が-10kg🔥カエル足ダイエットストレッチ",
     isPublic: true,
-  },
-  {
-    youtubeVideoId: "kJQP7kiw5Fk",
-    category: "Music",
-    title: "非公開テスト動画（サンプル）",
-    isPublic: false,
   },
 ];
 
