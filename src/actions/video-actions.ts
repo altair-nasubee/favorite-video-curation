@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { videos } from "@/lib/db/schema";
-import { requireAdmin } from "@/lib/auth-helpers";
+import { requireUser } from "@/lib/auth-helpers";
 import { extractVideoId } from "@/lib/youtube";
 
 export type ActionState = { error?: string };
@@ -15,7 +15,7 @@ export async function createVideo(
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
-  await requireAdmin();
+  await requireUser();
 
   const category = String(formData.get("category") ?? "").trim();
   const title = String(formData.get("title") ?? "").trim();
@@ -41,7 +41,7 @@ export async function updateVideo(
   _prev: ActionState,
   formData: FormData,
 ): Promise<ActionState> {
-  await requireAdmin();
+  await requireUser();
 
   const id = String(formData.get("id") ?? "");
   const category = String(formData.get("category") ?? "").trim();
@@ -65,7 +65,7 @@ export async function updateVideo(
 
 /** 動画を削除（admin）。 */
 export async function deleteVideo(formData: FormData): Promise<void> {
-  await requireAdmin();
+  await requireUser();
   const id = String(formData.get("id") ?? "");
   if (id) {
     await db.delete(videos).where(eq(videos.id, id));

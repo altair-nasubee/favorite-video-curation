@@ -1,11 +1,11 @@
-import { requireAdmin } from "@/lib/auth-helpers";
+import { requireUser } from "@/lib/auth-helpers";
 import { getCategories } from "@/lib/videos";
 import { createVideo } from "@/actions/video-actions";
 import { Header } from "@/components/Header";
 import { VideoForm } from "@/components/VideoForm";
 
 export default async function NewVideoPage() {
-  await requireAdmin();
+  await requireUser();
   const categories = await getCategories();
 
   return (

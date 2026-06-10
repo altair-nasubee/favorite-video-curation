@@ -17,7 +17,6 @@
 | `BETTER_AUTH_SECRET`                        | 新規生成（ランダム文字列）                            |
 | `BETTER_AUTH_URL`                           | 本番ドメイン（例: `https://your-app.vercel.app`） |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | Google Cloud Console（本番用 OAuth クライアント）   |
-| `ADMIN_EMAIL`                               | 管理者のメールアドレス（`altair@nasubee.com`）        |
 
 
 手順は **1) Turso → 2) Google OAuth → 3) Vercel → 4) マイグレーション → 5) 動作確認** の順で進めるとスムーズ。
@@ -144,7 +143,6 @@ git push -u origin main
 | `BETTER_AUTH_URL`      | 本番URL（例 `https://your-app.vercel.app`） |
 | `GOOGLE_CLIENT_ID`     | 手順2のクライアント ID                          |
 | `GOOGLE_CLIENT_SECRET` | 手順2のクライアントシークレット                       |
-| `ADMIN_EMAIL`          | `altair@nasubee.com`                   |
 
 
 > `BETTER_AUTH_URL` は実際に配信されるドメインと完全一致させる。
@@ -178,8 +176,8 @@ pnpm db:migrate
   - 未ログインで `/` → `/login` にリダイレクトされる。
   - Google ログインが成功し `/` に遷移する。
   - サムネ表示・再生・視聴済み記録・星評価・未視聴に戻すが動作する。
-  - `ADMIN_EMAIL` のアカウントで「管理画面」に入れる／それ以外は警告で遷移しない。
-  - 非公開動画が一般一覧に出ない（管理画面のみ表示）。
+  - ログインユーザーなら誰でも「管理画面」に入れる（管理者の区別なし）。
+  - 非公開動画が一般一覧に出ない（管理画面には表示される）。
 
 ---
 
@@ -192,7 +190,6 @@ pnpm db:migrate
 | ログインできるが直後にセッション切れ             | `BETTER_AUTH_URL` が実ドメインと一致しているか。`BETTER_AUTH_SECRET` が設定済みか                                             |
 | DB エラー（テーブルが無い等）               | 手順4のマイグレーションを本番 DB に適用したか                                                                                |
 | ビルドは通るが画像が出ない                  | `next.config.ts` の `images.remotePatterns`（`i.ytimg.com` / `img.youtube.com`）。サムネは `<img>` 直参照のため通常は影響なし |
-| 管理者として認識されない                   | `ADMIN_EMAIL` の値とログインした Google アカウントのメールが一致しているか（大文字小文字は無視）                                              |
 
 
 ---

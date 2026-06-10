@@ -44,8 +44,8 @@
 
 - [x] Better Auth 設定 `src/lib/auth.ts`（Google Provider）
 - [x] `/api/auth/[...all]/route.ts` マウント
-- [x] auth ヘルパー `src/lib/auth-helpers.ts`（`getSession` / `requireUser` / `requireAdmin` / `isAdmin`）
-- [x] `ADMIN_EMAIL` による管理者判定
+- [x] auth ヘルパー `src/lib/auth-helpers.ts`（`getSession` / `requireUser`）
+- [x] 管理者の区別なし（`ADMIN_EMAIL` 廃止。ログインユーザーは全員が管理画面を利用可）
 - [x] `/login` 画面（Google ログイン → `/` 遷移）
 - [x] 未ログイン時の保護ページリダイレクト（`/`・`/admin` → `/login` を実機確認）
 - [x] 実際の Google ログイン疎通（OAuth クレデンシャル設定後、ローカルでログイン成功を確認）
@@ -61,7 +61,7 @@
 ## フェーズ 5: 管理機能
 
 - [x] CRUD Server Actions（`createVideo` / `updateVideo` / `deleteVideo` / `getAdminVideoList` / `getCategories`）
-- [x] 各 admin アクション冒頭で `requireAdmin()`
+- [x] 各 CRUD アクション冒頭で `requireUser()`（ログイン必須・管理者の区別なし）
 - [x] 管理画面 `/admin`（[Add Video] 常時表示、非公開含むカテゴリ別リスト）
 - [x] 動画追加画面 `/admin/videos/new`（カテゴリ候補＋自由入力 / タイトル / URL / 公開切替 / Submit / Back）
 - [x] 詳細管理画面 `/admin/videos/[id]`（カテゴリ・タイトル・公開非公開を編集 / Remove / Back / サムネ・登録日時表示）
@@ -73,7 +73,7 @@
 - [x] 仮想カテゴリ「未視聴の動画」（自分基準）
 - [x] 仮想カテゴリ「評価の高い動画」（全員平均 4.0 以上、SQL 集計）
 - [x] 動画一覧画面 `/`（登録日時の降順）
-- [x] 動画詳細画面 `/videos/[id]`（カテゴリ/タイトル/サムネ/登録日時/自分の評価、非公開は管理者のみ）
+- [x] 動画詳細画面 `/videos/[id]`（カテゴリ/タイトル/サムネ/登録日時/自分の評価）
 - [x] インライン再生（サムネ→iframe差し替え、`enablejsapi=1` / IFrame API）
 - [x] 再生開始イベントで `markWatched` を一度だけ発火
 - [x] 星評価（整数1〜5）`setRating`
@@ -82,7 +82,7 @@
 ## フェーズ 7: 共通 UI / デザイン
 
 - [x] 共通レイアウト + ヘッダー（サイドバーなし）
-- [x] ヘッダーの「管理画面へ」ボタン（非管理者は警告トーストで遷移しない）
+- [x] ヘッダーの「管理画面へ」ボタン（全ユーザーが遷移可）
 - [x] ユーザー表示 / ログアウト
 - [x] ダークテーマ（シネマテーク調）、サムネカード（視聴済み・評価バッジ）、星 UI
 - [x] レスポンシブ対応（グリッド・詳細2カラムのブレークポイント）
@@ -121,6 +121,7 @@
 
 | 日付 | フェーズ/タスク | 内容 | 結果・備考 |
 | --- | --- | --- | --- |
+| 2026-06-10 | 仕様変更 | `ADMIN_EMAIL` を廃止し管理者の区別をなくす。ログインユーザー全員が管理画面・CRUD を利用可に変更（`isAdmin`/`requireAdmin`/`AdminNavButton` 削除、`/plans`・`.env.example`・`docs/deployment.md` 更新） | build/lint/test green |
 | 2026-06-09 | F9 | デプロイ手順を `docs/deployment.md` に整備（Turso/Google OAuth/Vercel env/マイグレーション） | フェーズ9完了。実装計画の全フェーズ完了 |
 | 2026-06-09 | F9 | web-design-guidelines で UI レビューし改善（focus-visible / color-scheme / theme-color / form 属性 / 画像 width-height / placeholder `…`） | build/lint/test green |
 | 2026-06-09 | F9 | 認証込み全機能を実機確認（視聴済み自動記録・評価保存・未視聴戻し・高評価カテゴリ・管理者フロー） | すべて ✅。カテゴリ表示順は現状で確定 |

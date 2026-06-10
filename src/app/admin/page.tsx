@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { requireAdmin } from "@/lib/auth-helpers";
+import { requireUser } from "@/lib/auth-helpers";
 import { getAdminVideoList } from "@/lib/videos";
 import { thumbnailUrl } from "@/lib/youtube";
 import { Header } from "@/components/Header";
 import { PlusIcon } from "@/components/icons";
 
 export default async function AdminPage() {
-  await requireAdmin();
+  await requireUser();
   const sections = await getAdminVideoList();
 
   return (

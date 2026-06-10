@@ -7,26 +7,10 @@ export async function getSession(): Promise<Session | null> {
   return auth.api.getSession({ headers: await headers() });
 }
 
-/** セッションが管理者（ADMIN_EMAIL 一致）かどうか。 */
-export function isAdmin(session: Session | null): boolean {
-  const adminEmail = process.env.ADMIN_EMAIL;
-  return (
-    !!session?.user?.email &&
-    !!adminEmail &&
-    session.user.email.toLowerCase() === adminEmail.toLowerCase()
-  );
-}
-
-/** ログイン必須。未ログインなら /login へリダイレクト。 */
+/** ログイン必須。未ログインなら /login へリダイレクト。
+ * 管理者の区別は廃止し、ログインユーザーは全員が管理画面を利用できる。 */
 export async function requireUser(): Promise<Session> {
   const session = await getSession();
   if (!session) redirect("/login");
-  return session;
-}
-
-/** 管理者必須。未ログインは /login、非管理者は / へリダイレクト。 */
-export async function requireAdmin(): Promise<Session> {
-  const session = await requireUser();
-  if (!isAdmin(session)) redirect("/");
   return session;
 }

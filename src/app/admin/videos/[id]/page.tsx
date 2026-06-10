@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { requireAdmin } from "@/lib/auth-helpers";
+import { requireUser } from "@/lib/auth-helpers";
 import { getCategories, getVideoById } from "@/lib/videos";
 import { updateVideo } from "@/actions/video-actions";
 import { thumbnailUrl } from "@/lib/youtube";
@@ -12,7 +12,7 @@ export default async function AdminVideoDetailPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requireAdmin();
+  await requireUser();
   const { id } = await params;
   const [video, categories] = await Promise.all([
     getVideoById(id),

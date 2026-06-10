@@ -1,11 +1,9 @@
 import Link from "next/link";
-import { getSession, isAdmin } from "@/lib/auth-helpers";
-import { AdminNavButton } from "./AdminNavButton";
+import { getSession } from "@/lib/auth-helpers";
 import { SignOutButton } from "./SignOutButton";
 
 export async function Header() {
   const session = await getSession();
-  const admin = isAdmin(session);
 
   return (
     <header className="site-header">
@@ -18,7 +16,9 @@ export async function Header() {
         </Link>
 
         <nav className="header-nav">
-          <AdminNavButton isAdmin={admin} />
+          <Link href="/admin" className="btn btn--ghost btn--sm">
+            管理画面
+          </Link>
           {session && (
             <>
               <span className="user-chip">

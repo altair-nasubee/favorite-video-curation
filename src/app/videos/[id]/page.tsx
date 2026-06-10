@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { isAdmin, requireUser } from "@/lib/auth-helpers";
+import { requireUser } from "@/lib/auth-helpers";
 import { getVideoDetail } from "@/lib/videos";
 import { Header } from "@/components/Header";
 import { VideoPlayer } from "@/components/VideoPlayer";
@@ -18,8 +18,6 @@ export default async function VideoDetailPage({
   const detail = await getVideoDetail(id, session.user.id);
 
   if (!detail) notFound();
-  // 非公開動画は管理者以外には存在しないものとして扱う
-  if (!detail.video.isPublic && !isAdmin(session)) notFound();
 
   const { video, watched, rating } = detail;
 

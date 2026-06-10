@@ -9,7 +9,7 @@ YouTube のお気に入り動画を登録・再生する Web アプリの実装�
 
 | 論点 | 決定 |
 | --- | --- |
-| 認証 | Google 認証。誰でもログイン可。管理者は環境変数 `ADMIN_EMAIL`（`altair@nasubee.com`）で判定 |
+| 認証 | Google 認証。誰でもログイン可。**管理者の区別なし**（ログインユーザーは全員が管理画面を利用可） |
 | 非公開動画 | 一般画面には表示しない。管理画面のみ表示 |
 | 視聴済み記録 | 動画の **再生開始** で自動記録（YouTube IFrame Player API の再生イベント） |
 | 評価 | ユーザーごとに保存。**整数 1〜5** の星評価 |
@@ -53,7 +53,7 @@ YouTube のお気に入り動画を登録・再生する Web アプリの実装�
 ```
 
 - データ取得は基本 Server Component で行い、ミューテーション（評価・視聴状態・動画CRUD）は Server Actions。
-- 認可は「Server Action / ページ単位でセッションを取得 → admin 判定」を共通ヘルパーで実施。クライアントのボタン制御だけに頼らず、**サーバー側でも `/admin` 系をガード**する。
+- 認可は「Server Action / ページ単位でセッションを取得 → ログイン確認」を共通ヘルパー（`requireUser()`）で実施。管理者の区別は設けず、**ログインユーザーは全員が管理画面・動画 CRUD を利用可**。`/admin` 系はサーバー側で未ログインをガードする。
 
 ---
 
@@ -97,10 +97,10 @@ Better Auth が生成する `user` / `session` / `account` / `verification` テ�
 ## 5. 認証・認可設計
 
 - **Better Auth** を `/api/auth/[...all]` の Route Handler でマウント。Google Provider を設定。
-- セッション取得ヘルパー `getSession()` と、`requireUser()` / `requireAdmin()` を用意。
-- **admin 判定**: `session.user.email === process.env.ADMIN_EMAIL`。`isAdmin(session)` ヘルパーを共通化。
+- セッション取得ヘルパー `getSession()` と `requireUser()` を用意。
+- **管理者の区別は設けない**: ログインユーザーは全員が管理画面・動画 CRUD を利用できる（`ADMIN_EMAIL` / `isAdmin` / `requireAdmin` は廃止）。
 - **未ログイン時**: 保護ページ（一覧・詳細・管理）はサーバー側でセッション確認し、未ログインなら `/login` へリダイレクト。
-- **管理画面ボタン**: 全ユーザーに常時表示。非管理者が押下 → クライアントで警告（トースト/ダイアログ）を出し遷移しない。加えて `/admin/**` ページ自体も `requireAdmin()` でサーバーガード（直接URL叩き対策）。
+- **管理画面ボタン**: 全ユーザーに常時表示し、押下で `/admin` へ遷移。`/admin/**` ページと各 CRUD アクションは `requireUser()` でログインのみ要求（未ログインは `/login`）。
 
 ---
 
@@ -117,7 +117,7 @@ Better Auth が生成する `user` / `session` / `account` / `verification` テ�
 
 ### 共通レイアウト
 - 画面上部ヘッダー（サイドバーなし）。
-- ヘッダーに「管理画面へ」ボタンを常時配置（非管理者は警告）。
+- ヘッダーに「管理画面へ」ボタンを常時配置（全ユーザーが遷移可）。
 - ユーザー表示・ログアウトもヘッダーに配置。
 
 ---
@@ -130,13 +130,13 @@ Better Auth が生成する `user` / `session` / `account` / `verification` テ�
 - `setRating(videoId, rating)` — upsert（1〜5）
 - `markWatched(videoId)` — 再生開始時に呼ぶ。upsert で `watched=true`
 - `resetWatched(videoId)` — `watched=false`
-- `getCategories()` — distinct カテゴリ一覧（動画追加の候補用、管理者）
-- `getAdminVideoList()` — 非公開含む全動画をカテゴリ別に（admin限定）
-- `createVideo({ category, title, youtubeUrl, isPublic })` — URL から videoID 抽出して保存（admin限定）
-- `updateVideo(id, { category, title, isPublic })`（admin限定）
-- `deleteVideo(id)`（admin限定）
+- `getCategories()` — distinct カテゴリ一覧（動画追加の候補用）
+- `getAdminVideoList()` — 非公開含む全動画をカテゴリ別に
+- `createVideo({ category, title, youtubeUrl, isPublic })` — URL から videoID 抽出して保存
+- `updateVideo(id, { category, title, isPublic })`
+- `deleteVideo(id)`
 
-各 admin アクションは冒頭で `requireAdmin()`。
+動画 CRUD アクションは冒頭で `requireUser()`（ログイン必須。管理者の区別なし）。
 
 ---
 
@@ -276,7 +276,6 @@ videoID は `dQw4w9WgXcQ` を代表値として使用。
 | `BETTER_AUTH_URL` | アプリのベースURL（本番ドメイン / localhost） |
 | `GOOGLE_CLIENT_ID` | Google OAuth |
 | `GOOGLE_CLIENT_SECRET` | Google OAuth |
-| `ADMIN_EMAIL` | 管理者判定（`altair@nasubee.com`） |
 
 - `.env.example` を用意。Google OAuth のリダイレクトURIは localhost と本番ドメインの両方を登録。
 
@@ -299,7 +298,7 @@ src/
   components/                   # UI（VideoCard, StarRating, Player, Header...）
   lib/
     auth.ts                     # Better Auth 設定
-    auth-helpers.ts             # getSession/requireUser/requireAdmin/isAdmin
+    auth-helpers.ts             # getSession/requireUser
     db/
       index.ts                  # Drizzle クライアント
       schema.ts                 # スキーマ
@@ -318,7 +317,7 @@ tests/                          # Vitest
 2. **DB / ORM**: Drizzle + libSQL クライアント、スキーマ定義、マイグレーション、Turso 接続確認。
 3. **認証**: Better Auth + Google、`/api/auth`、auth ヘルパー、`/login` 画面、未ログインリダイレクト。
 4. **YouTube ユーティリティ + テスト**: `lib/youtube.ts` と Vitest。
-5. **管理機能**: 管理画面・動画追加・詳細管理、CRUD Server Actions、admin ガード。
+5. **管理機能**: 管理画面・動画追加・詳細管理、CRUD Server Actions、ログインガード（管理者の区別なし）。
 6. **一覧 / 詳細（一般）**: カテゴリ別一覧、仮想カテゴリ、詳細画面、星評価、視聴済み（再生開始連携）、未視聴に戻す。
 7. **共通UI / デザイン**: ヘッダー、ダークテーマ、サムネカード、星 UI、レスポンシブ。Skill 適用。
 8. **シード**: `scripts/seed.ts`（ユーザー指定動画を反映）。
