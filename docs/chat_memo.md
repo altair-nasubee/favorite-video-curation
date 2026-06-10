@@ -159,7 +159,7 @@ frontend-design, vercel-react-best-practices, web-design-guidelines
 ---
 
 
-### Google OAuth クレデンシャル取得
+## Google OAuth クレデンシャル取得
 この実装が完了した時点ではまだGoogle認証が疎通していないので、以下の手順で値を取得する
 
 1. Google Cloud Console を開く
@@ -177,10 +177,10 @@ defaultでは画面左上の`Google Cloud`の表示の隣に`My First Project`�
 「Google Auth Platform はまだ構成されていません」
 と表示されているので［開始］
 
-・アプリ名：`favorite-video-curation`
-・ユーザーサポートメール：`{自分のメルアド}`
+・アプリ名：`<使用するアプリ名>`
+・ユーザーサポートメール：`<自分のメルアド>`
 ・ユーザータイプ: `外部`（誰でも使えるようにする）
-・連絡先情報：`{自分のメルアド}`
+・連絡先情報：`<自分のメルアド>`
 ・✅Google API サービス: ユーザーデータに関するポリシー に同意します。
 ・［作成］押下
 
@@ -212,12 +212,31 @@ BETTER_AUTH_URL="http://localhost:3000"
 http://localhost:3000/ をWebブラウザで開いて動作確認できた。
 
 
-その他の残件は以下の通り
+## Chat7
 
+---
+
+デプロイ手順の整備として本番Turso作成・Vercel環境変数・OAuthリダイレクトURI設定の手順をdocs/deployment.md にまとめて
+
+---
+
+
+## Chat8
+
+---
+
+このプロジェクトでTursoを使用する場合、MCPサーバーを利用する方法もあると聞いた。'/home/defaultuser/work/favorite-video-curation/docs/deployment.md'の手順と比較して。料金などの条件も踏まえて。
+
+---
+
+回答結果をふまえて deployment.md 末尾にTursoのMCPサーバーについての補足を追加しておいた。
+
+
+## docs/deployment.md の手順に従って、「2. Google OAuth（本番用クライアント）」まで完了
+
+ターミナルでコマンドを実行して、出力された値は.envの環境変数へ転記しておいた。
+
+
+## 残件
 ### シードの実動画 — 登録したい YouTube URL／カテゴリをご指定いただければ差し替えます（現在はサンプル）
-
-### 高評価カテゴリの確認データ — 擬似評価を入れるか（実ユーザー紐付けの都合）
-
 ### デプロイ — Vercel + Turso 本番設定、OAuth リダイレクトURI / BETTER_AUTH_URL
-
-

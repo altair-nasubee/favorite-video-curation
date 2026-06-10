@@ -20,7 +20,7 @@
 | 6 | 一覧 / 詳細（一般） | [x] |
 | 7 | 共通 UI / デザイン | [x] |
 | 8 | シード | [x] |
-| 9 | 仕上げ | [~] |
+| 9 | 仕上げ | [x] |
 
 ---
 
@@ -102,7 +102,7 @@
 - [x] 認証込みの一連フロー実機確認（ログイン・再生・視聴済み自動記録・評価保存・未視聴に戻す・高評価カテゴリ・管理者フロー すべて確認済み）
 - [x] アクセシビリティ / パフォーマンスの最終レビュー（web-design-guidelines 準拠: focus-visible・color-scheme・theme-color・フォーム属性・画像サイズ・placeholder `…` を改善）
 - [x] `.env.example` 整備
-- [ ] Vercel デプロイ手順整備（OAuth リダイレクトURI / `BETTER_AUTH_URL`）
+- [x] Vercel デプロイ手順整備 → `docs/deployment.md`（Turso 作成 / Google OAuth / Vercel env / マイグレーション / 動作確認 / トラブルシューティング）
 
 ---
 
@@ -121,6 +121,7 @@
 
 | 日付 | フェーズ/タスク | 内容 | 結果・備考 |
 | --- | --- | --- | --- |
+| 2026-06-09 | F9 | デプロイ手順を `docs/deployment.md` に整備（Turso/Google OAuth/Vercel env/マイグレーション） | フェーズ9完了。実装計画の全フェーズ完了 |
 | 2026-06-09 | F9 | web-design-guidelines で UI レビューし改善（focus-visible / color-scheme / theme-color / form 属性 / 画像 width-height / placeholder `…`） | build/lint/test green |
 | 2026-06-09 | F9 | 認証込み全機能を実機確認（視聴済み自動記録・評価保存・未視聴戻し・高評価カテゴリ・管理者フロー） | すべて ✅。カテゴリ表示順は現状で確定 |
 | 2026-06-09 | F3/F9 | OAuth クレデンシャル設定後、ローカルで Google ログイン・シード動画の再生を実機確認 | 成功（視聴済み記録・評価・未視聴戻しは次回確認） |
