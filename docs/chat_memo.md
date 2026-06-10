@@ -272,8 +272,45 @@ TURSO_AUTH_TOKEN=""
 
 ---
 
+## Vercelの設定
+1. [vercel.com](https://vercel.com/) にアクセス
+2. GitHubのアカウントでログイン
+3. 画面左下の自分のアイコンをクリックして展開、アカウント名の隣の歯車アイコンで Settings > Authentication
+https://vercel.com/account/settings/authentication
+4. パスキーか認証アプリで２段階認証を設定する
+iPhone の GoogleAuthenticator アプリで 追加 > QRコードでVercelのコードを登録すればOK
+
+## docs/deployment.md の手順に従って、「3. Vercel（プロジェクトと環境変数）」まで完了
+
+**作業メモ**
+Deployしたら、DashboardのDomainをクリックしてデプロイされた本番環境にアクセス
+本番環境のURLは https://favorite-video-curation.vercel.app
+(末尾に`/`は不要)
+
+Dashboardで環境変数の`BETTER_AUTH_URL`を https://favorite-video-curation.vercel.app に変更
+
+[Google Cloud Console](https://console.cloud.google.com/) で
+APIとサービス > 認証情報 > OAuth 2.0 クライアントID > （作成済みのID）をクリック
+承認済みのリダイレクト URI で [+ URIを追加]
+https://favorite-video-curation.vercel.app/api/auth/callback/google
+を追加して［保存］
 
 
+## Chat11
 
-## 残件
-### デプロイ — Vercel + Turso 本番設定、OAuth リダイレクトURI / BETTER_AUTH_URL
+---
+
+3. Vercel（プロジェクトと環境変数）を実行しました。                                                           
+  デプロイしたURLは https://favorite-video-curation.vercel.app
+  VercelでBETTER_AUTH_URLをhttps://favorite-video-curation.vercel.appに更新
+  Google Cloud Consoleで承認済みのリダイレクト URIに
+  https://favorite-video-curation.vercel.app/api/auth/callback/google
+  を追加して［保存］しました。
+
+---
+
+Claudeがこの内容を確認して「## 4. データベースマイグレーション（本番）」を実施してくれた。
+TurcelのDBの中身を見てみるとスキーマが追加されていた。
+https://app.turso.tech/altair-nasubee/databases/favorite-video-curation/data
+
+

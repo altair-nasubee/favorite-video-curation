@@ -111,7 +111,7 @@
 - [x] シードに登録する具体的な YouTube 動画 → 差し替え不要（テスト用プレースホルダーのまま）
 - [x] 高評価確認用の擬似評価 → シードには入れない（実ユーザーが画面から評価して確認）
 - [x] カテゴリの表示順 → 現状（登録日時降順での出現順）のままで確定
-- [!] 本番ドメイン確定後の Google OAuth リダイレクトURI / `BETTER_AUTH_URL` 設定
+- [x] 本番ドメイン確定後の Google OAuth リダイレクトURI / `BETTER_AUTH_URL` 設定
 
 ---
 
@@ -121,6 +121,7 @@
 
 | 日付 | フェーズ/タスク | 内容 | 結果・備考 |
 | --- | --- | --- | --- |
+| 2026-06-10 | デプロイ | Vercel + Turso 本番デプロイ完了。本番マイグレーション適用、Google OAuth・`BETTER_AUTH_URL`（末尾スラッシュ修正）設定 | https://favorite-video-curation.vercel.app で全機能の動作確認 ✅ |
 | 2026-06-10 | 仕様変更 | `ADMIN_EMAIL` を廃止し管理者の区別をなくす。ログインユーザー全員が管理画面・CRUD を利用可に変更（`isAdmin`/`requireAdmin`/`AdminNavButton` 削除、`/plans`・`.env.example`・`docs/deployment.md` 更新） | build/lint/test green |
 | 2026-06-09 | F9 | デプロイ手順を `docs/deployment.md` に整備（Turso/Google OAuth/Vercel env/マイグレーション） | フェーズ9完了。実装計画の全フェーズ完了 |
 | 2026-06-09 | F9 | web-design-guidelines で UI レビューし改善（focus-visible / color-scheme / theme-color / form 属性 / 画像 width-height / placeholder `…`） | build/lint/test green |

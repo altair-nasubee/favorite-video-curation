@@ -194,7 +194,7 @@ pnpm db:migrate
 
 ---
 
-## 7. 独自ドメインを使う場合
+## 7. 補足：独自ドメインを使う場合
 
 1. Vercel でドメインを割り当て。
 2. `BETTER_AUTH_URL` をそのドメインに更新。
@@ -208,3 +208,24 @@ pnpm db:migrate
 Turso MCP サーバーは、Claude などの AI アシスタントが自然言語で Turso を操作（DB作成・トークン発行・クエリ・スキーマ設計）できるようにする**開発／運用の補助ツール**で、**サーバー自体は無料**（Turso の利用料金プランには影響しない）。アプリのランタイム構成要素ではなく、本番接続は本書の手順1〜4のとおり。
 
 今回の開発では使用しない。必要になった場合は Claude などの AI アシスタントに質問して導入すること。
+
+---
+
+## 9. 補足：Vercel Blob を使う場合
+今回のプロジェクトでは使用しないが、例えば動画のサムネイルの画像などのオブジェクトをネットワークストレージに保存して使用したいときは、Vercel Blob を使用できる。
+
+**Vercel Blobの使い方**
+Vercelで本番環境をDeployしてから
+ブラウザでVercelへサインイン
+左のサイドバー > Strage > [Create Database]
+Blob を選択して、
+Store Name: <Strageの名前>
+Region: Tokyo - Japan
+Access: Public (必要に応じてPrivateにする)
+で作成。
+作成したStrageを開いてConnectで使えるようになる。
+
+ConnectするとBLOB_READ_WRITE_TOKENなどの環境変数の値が生成されるので、
+それを本番環境の環境変数に追加すればVercel Blobにアクセスしてデータの追加・削除ができる。
+
+
