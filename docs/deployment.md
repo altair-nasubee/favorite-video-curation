@@ -26,7 +26,7 @@
 ## 1. Turso（本番データベース）
 
 Tursoを使用するための準備として、
-https://turso.tech/ を開いて [Start for free now] 押下 > GitHubのアカウントでサインインしておくこと。
+[https://turso.tech/](https://turso.tech/) を開いて [Start for free now] 押下 > GitHubのアカウントでサインインしておくこと。
 
 ### 1.1 CLI 準備
 
@@ -111,17 +111,17 @@ git push -u origin main
 1. [vercel.com](https://vercel.com/) にアクセスし、**「Sign Up」/「Log In」→ Continue with GitHub** で GitHub アカウントでログインする。
 2. ダッシュボード右上の **「Add New…」→「Project」** をクリック。
 3. **「Import Git Repository」** の一覧から `favorite-video-curation` を探し、**「Import」** を押す。
-   - 一覧に出ない場合は **「Adjust GitHub App Permissions」**（または「Configure GitHub App」）から、Vercel にこのリポジトリへのアクセスを許可する。
+  - 一覧に出ない場合は **「Adjust GitHub App Permissions」**（または「Configure GitHub App」）から、Vercel にこのリポジトリへのアクセスを許可する。
 4. **「Configure Project」** 画面が開く。次を確認・設定する。
-   - **Project Name**: そのままで可。ここで決めた名前が本番ドメインになる
-     （例: `favorite-video-curation` → `https://favorite-video-curation.vercel.app`）。
-     **この URL を手順2の Google リダイレクト URI と、3.2 の `BETTER_AUTH_URL` に使う**ので控えておく。
-   - **Framework Preset**: `Next.js` が自動検出される（変更不要）。
-   - **Root Directory**: `./`（変更不要）。
-   - **Build and Output Settings**: 既定のままで可
-     （`pnpm-lock.yaml` を検出して **pnpm** が自動採用され、Build = `next build` になる。手動設定は不要）。
+  - **Project Name**: そのままで可。ここで決めた名前が本番ドメインになる
+   （例: `favorite-video-curation` → `https://favorite-video-curation.vercel.app`）。
+   **この URL を手順2の Google リダイレクト URI と、3.2 の `BETTER_AUTH_URL` に使う**ので控えておく。
+  - **Framework Preset**: `Next.js` が自動検出される（変更不要）。
+  - **Root Directory**: `./`（変更不要）。
+  - **Build and Output Settings**: 既定のままで可
+  （`pnpm-lock.yaml` を検出して **pnpm** が自動採用され、Build = `next build` になる。手動設定は不要）。
 5. **「Environment Variables」** セクションを開き、**3.2 の表の7項目をここで先に登録する**
-   （初回デプロイ前に入れておくと、ログイン等が最初から正しく動く）。
+  （初回デプロイ前に入れておくと、ログイン等が最初から正しく動く）。
 6. **「Deploy」** ボタンを押す。ビルドが走り、数分で完了する。
 7. 完了画面に本番 URL（`https://<プロジェクト名>.vercel.app`）が表示される。これがアプリの公開アドレス。
 
@@ -212,20 +212,43 @@ Turso MCP サーバーは、Claude などの AI アシスタントが自然言�
 ---
 
 ## 9. 補足：Vercel Blob を使う場合
+
 今回のプロジェクトでは使用しないが、例えば動画のサムネイルの画像などのオブジェクトをネットワークストレージに保存して使用したいときは、Vercel Blob を使用できる。
 
 **Vercel Blobの使い方**
-Vercelで本番環境をDeployしてから
-ブラウザでVercelへサインイン
-左のサイドバー > Strage > [Create Database]
-Blob を選択して、
-Store Name: <Strageの名前>
-Region: Tokyo - Japan
-Access: Public (必要に応じてPrivateにする)
-で作成。
-作成したStrageを開いてConnectで使えるようになる。
 
-ConnectするとBLOB_READ_WRITE_TOKENなどの環境変数の値が生成されるので、
-それを本番環境の環境変数に追加すればVercel Blobにアクセスしてデータの追加・削除ができる。
+1. Vercelで本番環境をDeploy
+2. ブラウザでVercelへサインイン
+3. 左のサイドバー > Strage > [Create Database]
+4. Blob を選択して、以下の設定で作成する
+  - Store Name: <Strageの名前>
+  - Region: Tokyo - Japan
+  - Access: Public (必要に応じてPrivateにする)
+5. 作成したStrageを開いてConnectで使えるようになる。
+6. ConnectするとBLOB_READ_WRITE_TOKENなどの環境変数の値が生成される
+7. それを本番環境の環境変数に追加すればVercel Blobにアクセスしてデータの追加・削除ができる。
 
+---
+
+## 10. 補足：VercelでデプロイするRegionをTokyoにする
+
+TursoのDBはTokyo, Japanで作成している。本番環境のVercelのResionもTokyoにしないと動作が遅いので変更する。
+
+1. [vercel.com](https://vercel.com/) をブラウザで開いてDashboardを表示
+2. 作成したプロジェクトを開く
+3. 左サイドバー Settings > Functions
+4. Function Regions を確認
+  - defaultでは Washington, D.C. (iad1) になっている。
+  - Washington, D.C. (iad1) をOFF
+  - Tokyo, Japan (hnd1) をON
+  - [Save]
+5. ここまでで設定変更はできているが、vercel.jsonに設定を書いてコミットしておく方法もある
+
+```json
+{
+    "regions": ["hnd1"]
+}
+```
+
+---
 

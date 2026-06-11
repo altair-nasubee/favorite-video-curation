@@ -198,15 +198,12 @@ defaultでは画面左上の`Google Cloud`の表示の隣に`My First Project`�
 ・［作成］押下
 
 5. クライアント ID / シークレットをコピーする
-作成後に表示される:
-
-クライアント ID → GOOGLE_CLIENT_ID
-クライアント シークレット → GOOGLE_CLIENT_SECRET
-.env に貼り付けます。
-
+.envで以下の値としてコピーする
+```
 GOOGLE_CLIENT_ID="<YOUR-CLIENT-ID>"
 GOOGLE_CLIENT_SECRET="<YOUR-CLIENT-SECRET>"
 BETTER_AUTH_URL="http://localhost:3000"
+```
 
 ここまでやってから、Claudeとは別のターミナルで `npm run dev` でローカルサーバーを起動
 http://localhost:3000/ をWebブラウザで開いて動作確認できた。
