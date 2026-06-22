@@ -13,8 +13,10 @@
   <img alt="Vitest" src="https://img.shields.io/badge/Vitest-tested-6E9F18?logo=vitest&logoColor=white">
 </p>
 
-🔗 **本番デモ**: <https://favorite-video-curation.vercel.app>
-（**Google アカウントがあれば誰でもログインして試せます**。ログインユーザーは動画の登録・編集も可能です）
+~🔗 **本番デモ**: <https://favorite-video-curation.vercel.app>~
+~（**Google アカウントがあれば誰でもログインして試せます**。ログインユーザーは動画の登録・編集も可能です）~
+<br/>
+※公開停止しました。
 
 <!-- スクリーンショットを入れる場合はこの下に追加してください -->
 <img src="docs/screenshots/app_overview.png" alt="アプリの概要画面" width="600">
