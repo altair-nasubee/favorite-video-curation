@@ -2,6 +2,25 @@
 
 このリポジトリで作業する際のルール。
 
+## スキル（Superpowers）の利用
+
+- Superpowers プラグインは user スコープ（`~/.claude/settings.json`）で有効化している。関連するスキルがあれば積極的に利用すること。
+- 本 CLAUDE.md のルールはスキルより優先される。スキルの手順と本ルールが矛盾する場合は、本ルールに従う。
+- 特に下記「テストに関する絶対ルール」は `test-driven-development` スキルを**補強するもの**であり、緩める方向には解釈しない。
+
+### Superpowers 未インストール時の対応（重要）
+
+Superpowers は user スコープで管理しているため、このリポジトリを clone / pull しただけでは有効にならない。**セッション開始時に Superpowers が利用可能かを確認すること。**
+
+- 確認方法: セッション開始時に Superpowers のスキル（例: `using-superpowers`）が利用可能か、または `~/.claude/settings.json` の `enabledPlugins` に `superpowers@claude-plugins-official` が含まれているかを確認する。
+- **未インストール／未有効化の場合は、作業を始める前にユーザーへ警告し、インストールを促すこと。** 例:
+
+  > ⚠️ Superpowers が見つかりません。このリポジトリは Superpowers の利用を前提としています。以下でインストール／有効化してください:
+  > 1. `/plugin` を実行し、マーケットプレイス `claude-plugins-official` から `superpowers` をインストール（user スコープ）
+  > 2. インストール後にセッションを再起動
+
+- ユーザーが「インストールせず進める」と明示した場合のみ、Superpowers なしで作業を続行してよい。
+
 ## 実装ワークフロー
 
 - 実装の際には、先に仕様書（`plans/implementation-plan.md`）を確認してから実装およびテストを行うこと。
